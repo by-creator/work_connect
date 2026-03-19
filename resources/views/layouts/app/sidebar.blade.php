@@ -11,22 +11,35 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                <!-- Dashboard -->
+                <flux:sidebar.group :heading="__('Accueil')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
+                        {{ __('Tableau de bord') }}
                     </flux:sidebar.item>
+                </flux:sidebar.group>
+
+                <!-- Missions -->
+                <flux:sidebar.group :heading="__('Missions')" class="grid">
+                    <flux:sidebar.item icon="briefcase" :href="route('missions.index')" :current="request()->routeIs('missions.index')" wire:navigate>
+                        {{ __('Explorer les missions') }}
+                    </flux:sidebar.item>
+
+                    @if(auth()->user()->isClient())
+                        <flux:sidebar.item icon="plus-circle" :href="route('missions.create')" :current="request()->routeIs('missions.create')" wire:navigate>
+                            {{ __('Publier une mission') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="list-bullet" :href="route('missions.my')" :current="request()->routeIs('missions.my')" wire:navigate>
+                            {{ __('Mes missions') }}
+                        </flux:sidebar.item>
+                    @endif
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <flux:spacer />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
+                <flux:sidebar.item icon="cog-6-tooth" :href="route('profile.edit')" :current="request()->routeIs('profile.edit')" wire:navigate>
+                    {{ __('Paramètres') }}
                 </flux:sidebar.item>
             </flux:sidebar.nav>
 
@@ -56,7 +69,7 @@
 
                                 <div class="grid flex-1 text-start text-sm leading-tight">
                                     <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
-                                    <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
+                                    <flux:text class="truncate text-xs">{{ auth()->user()->roleLabel() }}</flux:text>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +79,7 @@
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
+                            {{ __('Paramètres') }}
                         </flux:menu.item>
                     </flux:menu.radio.group>
 
@@ -81,7 +94,7 @@
                             class="w-full cursor-pointer"
                             data-test="logout-button"
                         >
-                            {{ __('Log out') }}
+                            {{ __('Se déconnecter') }}
                         </flux:menu.item>
                     </form>
                 </flux:menu>
