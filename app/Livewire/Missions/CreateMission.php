@@ -4,9 +4,13 @@ namespace App\Livewire\Missions;
 
 use App\Models\Category;
 use App\Models\Mission;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+#[Layout('layouts.app')]
+#[Title('Publier une mission')]
 class CreateMission extends Component
 {
     use WithFileUploads;

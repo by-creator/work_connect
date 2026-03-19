@@ -4,8 +4,10 @@ namespace App\Livewire\Missions;
 
 use App\Models\Application;
 use App\Models\Mission;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.app')]
 class ShowMission extends Component
 {
     public Mission $mission;
@@ -88,6 +90,7 @@ class ShowMission extends Component
                 ->exists()
             : false;
 
-        return view('livewire.missions.show-mission', compact('hasApplied'));
+        return view('livewire.missions.show-mission', compact('hasApplied'))
+            ->title($this->mission->title);
     }
 }

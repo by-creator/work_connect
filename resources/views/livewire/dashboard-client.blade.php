@@ -1,5 +1,4 @@
-<x-layouts::app :title="__('Tableau de bord')">
-    <div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6">
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
@@ -79,5 +78,4 @@
                 </div>
             @endif
         </div>
-    </div>
-</x-layouts::app>
+</div>

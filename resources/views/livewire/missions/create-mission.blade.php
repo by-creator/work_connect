@@ -1,5 +1,4 @@
-<x-layouts::app :title="__('Publier une mission')">
-    <div class="max-w-3xl mx-auto">
+<div class="max-w-3xl mx-auto">
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Publier une mission</h1>
             <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Décrivez votre besoin pour attirer les meilleurs freelances</p>
@@ -106,5 +105,4 @@
                 <a href="{{ route('dashboard') }}" wire:navigate class="text-sm text-zinc-500 hover:text-zinc-700">Annuler</a>
             </div>
         </form>
-    </div>
-</x-layouts::app>
+</div>
