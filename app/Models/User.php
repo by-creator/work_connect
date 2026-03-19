@@ -2,39 +2,67 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'phone',
+        'location',
+        'bio',
+        'skills',
+        'profile_photo',
+        'is_verified',
+        'rating',
+        'completed_missions',
+    ];
+
+    protected $hidden = [
+        'password',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'remember_token',
+    ];
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills' => 'array',
+            'is_verified' => 'boolean',
+            'rating' => 'decimal:2',
         ];
     }
 
-    /**
-     * Get the user's initials
-     */
+    public function isClient(): bool
+    {
+        return $this->role === 'client';
+    }
+
+    public function isFreelance(): bool
+    {
+        return $this->role === 'freelance';
+    }
+
+    public function roleLabel(): string
+    {
+        return $this->role === 'client' ? 'Client' : 'Freelance';
+    }
+
     public function initials(): string
     {
         return Str::of($this->name)
@@ -42,5 +70,31 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    // Relations
+    public function missionsAsClient(): HasMany
+    {
+        return $this->hasMany(Mission::class, 'client_id');
+    }
+
+    public function missionsAsFreelance(): HasMany
+    {
+        return $this->hasMany(Mission::class, 'freelance_id');
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class, 'freelance_id');
+    }
+
+    public function reviewsReceived(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewed_id');
+    }
+
+    public function reviewsGiven(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
     }
 }
