@@ -4,9 +4,13 @@ namespace App\Livewire\Missions;
 
 use App\Models\Category;
 use App\Models\Mission;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Layout('layouts.app')]
+#[Title('Missions disponibles')]
 class MissionList extends Component
 {
     use WithPagination;

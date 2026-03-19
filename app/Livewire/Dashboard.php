@@ -4,7 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Application;
 use App\Models\Mission;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
+
+#[Layout('layouts.app')]
+#[Title('Tableau de bord')]
 
 class Dashboard extends Component
 {
